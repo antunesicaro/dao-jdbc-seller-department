@@ -1,5 +1,6 @@
 package model.dao;
 
+import db.DB;
 import model.dao.impl.SellerDaoJDBC;
 
 /*
@@ -9,6 +10,6 @@ Essa classe serve como um esqueleto para a implementação real do acesso ao banco
  * */
 public class DaoFactory { //no programa vou poder instanciar SellerDao em uma variavel sellerDao e chamo a fábrica aqui com o método create, dai o programa princiapl não conhece a implementação, somente a interface
 	public static SellerDao createSellerDao() { //método que retorna o tipo da interface, porém internamente está instanciando a implementação, ai não exponho a implementação que é a sellerdaojdbc com o esqueleto, deixa exposto só a interface que é SellerDao
-		return new SellerDaoJDBC();
+		return new SellerDaoJDBC(DB.getConnection()); // antes de ir pra implementação, faz a conexão com banco para que os métodos possam ser usados.
 	}
 }
