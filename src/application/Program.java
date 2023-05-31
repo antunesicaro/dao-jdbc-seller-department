@@ -13,18 +13,25 @@ public class Program {
 		//no programa vou poder instanciar SellerDao em uma variavel sellerDao e chamo a fábrica aqui com o método create, dai o programa princiapl não conhece a implementação, somente a interface
 		SellerDao sellerDao = DaoFactory.createSellerDao();
 		
-		System.out.println("=== teste 1: seller findbyid ===");
+		//System.out.println("=== teste 1: seller findbyid ===");
 		
 		//variavel seller é do tipo Seller e vai receber o retorno do findbyid com argumento 3, tem q mostrar os dados retornados corretamente.
-		Seller seller  = sellerDao.findById(3);
+		//Seller seller  = sellerDao.findById(3);
 		
-		System.out.println(seller);
+		//System.out.println(seller);
 		
 		
 		
-		System.out.println("\n === teste 2: seller findbydepartment ===");
+		System.out.println("\n ### teste 2: seller findbydepartment ###");
 		Department department = new Department(2,null);
 		List<Seller> list = sellerDao.findByDepartment(department);
+		for(Seller obj : list) {
+			System.out.println(obj);
+		}
+		
+		
+		System.out.println("\n ### teste 3: seller findAll ###");
+		list = sellerDao.findAll();
 		for(Seller obj : list) {
 			System.out.println(obj);
 		}
