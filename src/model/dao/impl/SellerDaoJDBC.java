@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +35,50 @@ public class SellerDaoJDBC implements SellerDao {
 		this.conn = conn; //o this.conn recebe o conn que chegou como parâmetro
 	}
 	
+	//obs: explicações melhores e completas no método finbyId e findByDepartment
 	@Override
 	public void insert(Seller obj) {
-		// TODO Auto-generated method stub
+			
+		PreparedStatement st = null; 
+		
+		try {
+			st = conn.prepareStatement(
+					"INSERT INTO seller "
+					+"(Name, Email, BirthDate, BaseSalary, DepartmentId) "
+					+"VALUES " 
+					+"(?, ?, ?, ?, ?) " , Statement.RETURN_GENERATED_KEYS ); //vou precisar do retorno do objeto inserido, no caso o id de quem foi inserido novo, que é a chave primária gerada.
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getEmail());
+			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setDouble(4, obj.getBaseSalary());
+			st.setInt(5, obj.getDepartment().getId());
+			
+			int rowsAffected = st.executeUpdate();// é chamado para executar a instrução sql e ela tá retornando a chave primária
+			
+			//se for maior que zero, é que inseriu, linhas foram modificadas no banco
+			if(rowsAffected > 0) {
+				ResultSet rs = st.getGeneratedKeys(); //recebe a chave
+				if(rs.next()) { //se existir 
+					int id = rs.getInt(1); //pega a primeira coluna da chave generatedkeys
+					
+					//popula o objeto que veio como parametro, pois o id eu não mando, ele é automático
+					obj.setId(id);
+				}
+				
+				DB.closeResultSet(rs); //fecha para não vazar memória
+			}
+			
+			else {
+				throw new DbException("Erro inesperado, nenhuma linha afetada");
+			}
+		}catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
+		
+			
 		
 	}
 
