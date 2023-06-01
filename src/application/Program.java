@@ -2,6 +2,7 @@ package application;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
@@ -11,6 +12,10 @@ import model.entities.Seller;
 public class Program {
 
 	public static void main(String[] args) {
+		
+		
+		Scanner sc = new Scanner(System.in);
+		
 		//no programa vou poder instanciar SellerDao em uma variavel sellerDao e chamo a fábrica aqui com o método create, dai o programa princiapl não conhece a implementação, somente a interface
 		SellerDao sellerDao = DaoFactory.createSellerDao();
 		
@@ -46,6 +51,13 @@ public class Program {
 		sellerDao.update(seller);
 		System.out.println("Atualizado!");
 		
+		System.out.println("\n=== TEST 6: seller delete =====");
+		System.out.println("Passe um id pra deletar: ");
+		int id = sc.nextInt();
+		sellerDao.deleteById(id);
+		System.out.println("Deletado!");
+		
+		sc.close();
 		
 		
 		
