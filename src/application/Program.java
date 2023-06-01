@@ -14,12 +14,10 @@ public class Program {
 		//no programa vou poder instanciar SellerDao em uma variavel sellerDao e chamo a fábrica aqui com o método create, dai o programa princiapl não conhece a implementação, somente a interface
 		SellerDao sellerDao = DaoFactory.createSellerDao();
 		
-		//System.out.println("=== teste 1: seller findbyid ===");
-		
+		System.out.println("=== teste 1: seller findbyid ===");
 		//variavel seller é do tipo Seller e vai receber o retorno do findbyid com argumento 3, tem q mostrar os dados retornados corretamente.
-		//Seller seller  = sellerDao.findById(3);
-		
-		//System.out.println(seller);
+		Seller seller  = sellerDao.findById(3);
+		System.out.println(seller);
 		
 		
 		
@@ -42,7 +40,11 @@ public class Program {
 		sellerDao.insert(newSeller);
 		System.out.println("Inserido!  id do inserido = " + newSeller.getId());
 		
-		
+		System.out.println("\n=== TEST 5: seller update =====");
+		seller = sellerDao.findById(1);
+		seller.setName("Bob Alterado pelo Update");
+		sellerDao.update(seller);
+		System.out.println("Atualizado!");
 		
 		
 		
